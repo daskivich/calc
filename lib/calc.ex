@@ -68,7 +68,7 @@ defmodule Calc do
   end
 
   # formats the given input string appropriately for evaluation
-  def format(input) do
+  defp format(input) do
     # trim leading/trailing white space
     trimmed = input |> String.trim()
 
@@ -83,7 +83,7 @@ defmodule Calc do
   end
 
   # recursive function to elimiate all multiple spaces in given input
-  def singleSpace(input) do
+  defp singleSpace(input) do
     singleSpaced = Regex.replace(~r/\s\s/, input, " ")
 
     if String.contains?(singleSpaced, "  ") do
@@ -94,7 +94,7 @@ defmodule Calc do
   end
 
   # determines the type of input given
-  def type(input) do
+  defp type(input) do
     cond do
       input |> String.contains?(")") ->
         :paren
@@ -109,7 +109,7 @@ defmodule Calc do
 
   # evaluates the first inner parenthetical operation
   # and then recurses with the replaced value
-  def eliminateParen(input) do
+  defp eliminateParen(input) do
     # determine the index of the first closed parenthesis
     [{firstClosedIndex, firstClosedLength} | restClosed] =
       Regex.run( ~r/\)/, input, return: :index)
@@ -142,7 +142,7 @@ defmodule Calc do
   end
 
   # evaluates the given binary operation or unary expression
-  def binOp(input) do
+  defp binOp(input) do
     case input |> String.split(" ") do
       # addition
       [a, "+", b] ->
@@ -173,7 +173,7 @@ defmodule Calc do
   # evaluates the first (from left to right) multiplication
   # or division operation encountered
   # and then recurses with the replaced value
-  def eliminateMultDiv(input) do
+  defp eliminateMultDiv(input) do
     # determine the index of the first multiplication or division operator
     [{firstMultDivIndex, firstMultDivLength} | restClosed] =
       Regex.run(~r/(\*|\/)/, input, return: :index)
@@ -218,7 +218,7 @@ defmodule Calc do
   # evaluates the first (from left to right) addition
   # or subtraction operation encountered
   # and then recurses with the replaced value
-  def eliminateAddSub(input) do
+  defp eliminateAddSub(input) do
     # determine the index of the first addition or subtraction operator
     [{firstAddSubIndex, firstAddSubLength} | restClosed] =
       Regex.run(~r/(\+\s|\-\s)/, input, return: :index)
